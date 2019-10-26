@@ -11,7 +11,7 @@ import UIKit
 class ToDoeyViewController: UITableViewController{
     
     
-    let itemArray = ["APPLE","INSTAGRAM","FACEBOOK","WHATSAPP","MICROSOFT"]
+    var itemArray = ["APPLE","INSTAGRAM","FACEBOOK","WHATSAPP","MICROSOFT","YOUTUBE","OHH MERI BHARTI!!!!! I AM SORRY :(:(:( FORGIVE ME PLEASE!!"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +56,31 @@ class ToDoeyViewController: UITableViewController{
     }
     
    
-   
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add New Todoey item", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "ADD ITEM", style: .default) { (action) in
+            print(textField.text!)
+            self.itemArray.append(textField.text!)
+            print(self.itemArray)
+            
+            self.tableView.reloadData()
+        }
+        
+        alert.addAction(action)
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+        }
+        
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
 
 }
 
