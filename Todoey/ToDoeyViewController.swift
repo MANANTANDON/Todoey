@@ -11,10 +11,16 @@ import UIKit
 class ToDoeyViewController: UITableViewController{
     
     
-    var itemArray = ["APPLE","INSTAGRAM","FACEBOOK","WHATSAPP","MICROSOFT","YOUTUBE","OHH MERI BHARTI!!!!! I AM SORRY :(:(:( FORGIVE ME PLEASE!!"]
+    var itemArray = ["APPLE","INSTAGRAM","FACEBOOK","WHATSAPP","MICROSOFT","YOUTUBE","OOH MERI BHARTI!!!!!!! I AM REALLY SORRY :(:(:( "]
+    
+    let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let item = defaults.array(forKey: "ToDoListArray") as? [String]{
+            itemArray = item
+        }
         
     }
     
@@ -65,6 +71,10 @@ class ToDoeyViewController: UITableViewController{
         let action = UIAlertAction(title: "ADD ITEM", style: .default) { (action) in
             print(textField.text!)
             self.itemArray.append(textField.text!)
+            
+            //The below line of code is related to USERDEFAULTS.....
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            
             print(self.itemArray)
             
             self.tableView.reloadData()
