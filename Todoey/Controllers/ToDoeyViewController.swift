@@ -11,14 +11,29 @@ import UIKit
 class ToDoeyViewController: UITableViewController{
     
     
-    var itemArray = ["APPLE","INSTAGRAM","FACEBOOK","WHATSAPP","MICROSOFT","YOUTUBE","OOH MERI BHARTI!!!!!!! I AM REALLY SORRY :(:(:( "]
+    var itemArray = [Items]()
+   //        ["APPLE","INSTAGRAM","FACEBOOK","WHATSAPP","MICROSOFT","YOUTUBE","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    //,"OOH MERI BHARTI!!!!!!! I AM REALLY SORRY, BE HAPPY ALWAYS :):):) "]
     
     let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let item = defaults.array(forKey: "ToDoListArray") as? [String]{
+        let newItem = Items()
+        newItem.titles = "APPLE"
+        itemArray.append(newItem)
+        
+        let newItemTwo = Items()
+        newItemTwo.titles = "INSTAGRAM"
+        itemArray.append(newItemTwo)
+        
+        let newItemThree = Items()
+        newItemThree.titles = "FACEBOOK"
+        itemArray.append(newItemThree)
+        
+        
+        if let item = defaults.array(forKey: "TodoListArray") as? [Items]{
             itemArray = item
         }
         
@@ -38,7 +53,14 @@ class ToDoeyViewController: UITableViewController{
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoList", for: indexPath)
         
         //set the text of the property of the table view cell equal to the text inside of an ARRAY......
-        cell.textLabel?.text = itemArray[indexPath.row]
+        
+        
+        let item = itemArray[indexPath.row]
+        
+        cell.textLabel?.text = item.titles
+        
+        cell.accessoryType = item.done ? .checkmark : .none
+       
         
         //return the instance as mentioned in the return type of this method....
         return cell
@@ -46,16 +68,12 @@ class ToDoeyViewController: UITableViewController{
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // this will print the index number correspond to the members of an array.....
-        print(itemArray[indexPath.row])
+        //print(itemArray[indexPath.row])
         
-        
-
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark{
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        }else{
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
-        //this line of code helps in just flashClickingTheSelectedRow as when a user selects a row or any cell it just highlights the cell and quickly unhighlight it giving it a nice animated user interface......
+        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+      
+        tableView.reloadData()
+       
         tableView.deselectRow(at: indexPath, animated: true)
         
         //tableView.cellForRow(at: indexPath)?.accessoryType = .none
@@ -69,25 +87,28 @@ class ToDoeyViewController: UITableViewController{
         let alert = UIAlertController(title: "Add New Todoey item", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "ADD ITEM", style: .default) { (action) in
-            print(textField.text!)
-            self.itemArray.append(textField.text!)
+          
+            
+            let newItem = Items()
+            newItem.titles = textField.text!
+            
+            self.itemArray.append(newItem)
             
             //The below line of code is related to USERDEFAULTS.....
             self.defaults.set(self.itemArray, forKey: "TodoListArray")
-            
-            print(self.itemArray)
+        
             
             self.tableView.reloadData()
         }
         
-        alert.addAction(action)
+        
         
         alert.addTextField { (alertTextField) in
             alertTextField.placeholder = "Create new item"
             textField = alertTextField
         }
         
-        
+        alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
     
