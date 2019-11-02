@@ -79,7 +79,33 @@ class ToDoeyViewController: UITableViewController{
         //tableView.cellForRow(at: indexPath)?.accessoryType = .none
     }
     
-   
+    
+    @IBAction func startEditing(_ sender: Any) {
+        
+        isEditing = !isEditing
+    }
+    
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    //this line of code adds an editing button wiz a bar button on the navigation bar and also helps in editing the cell in the UITableViewController...
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let itemToMove = itemArray[sourceIndexPath.row]
+        itemArray.remove(at: sourceIndexPath.row)
+        itemArray.insert(itemToMove, at: sourceIndexPath.row)
+    }
+    
+    
+    //this line of code deletes an element from the from the table view controller........
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete{
+               print("Item DELETED!!!!!!!")
+            self.itemArray.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
         var textField = UITextField()
