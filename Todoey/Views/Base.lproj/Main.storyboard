@@ -12,7 +12,7 @@
         <!--Todoey-->
         <scene sceneID="oYw-iz-cRL">
             <objects>
-                <tableViewController id="cfZ-mb-OH3" customClass="ToDoeyViewController" customModule="Todoey" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="cfZ-mb-OH3" customClass="ToDoeyViewController" customModule="Todoey" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="xsK-4n-2gI" customClass="To">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -49,7 +49,7 @@
                                 <action selector="startEditing:" destination="cfZ-mb-OH3" id="B4u-YE-j8p"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="wsC-fr-604">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="wsC-fr-604">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="addButtonPressed:" destination="cfZ-mb-OH3" id="HA0-g4-urM"/>
@@ -59,7 +59,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M1e-S0-S7V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1192.8" y="150.67466266866569"/>
+            <point key="canvasLocation" x="921" y="151"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3Qd-Xo-jW3">

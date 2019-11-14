@@ -12,30 +12,32 @@ class ToDoeyViewController: UITableViewController{
     
     
     var itemArray = [Items]()
+    
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist ")
    //        ["APPLE","INSTAGRAM","FACEBOOK","WHATSAPP","MICROSOFT","YOUTUBE","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-    //,"OOH MERI BHARTI!!!!!!! I AM REALLY SORRY, BE HAPPY ALWAYS :):):) "]
+    //,"BHARTI!!!!!!! I AM REALLY SORRY, BE HAPPY ALWAYS :):):) "]
     
     let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let newItem = Items()
-        newItem.titles = "APPLE"
-        itemArray.append(newItem)
         
-        let newItemTwo = Items()
-        newItemTwo.titles = "INSTAGRAM"
-        itemArray.append(newItemTwo)
+        print(dataFilePath!)
         
-        let newItemThree = Items()
-        newItemThree.titles = "FACEBOOK"
-        itemArray.append(newItemThree)
+//        let newItem = Items()
+//        newItem.titles = "APPLE"
+//        itemArray.append(newItem)
+//
+//        let newItemTwo = Items()
+//        newItemTwo.titles = "INSTAGRAM"
+//        itemArray.append(newItemTwo)
+//
+//        let newItemThree = Items()
+//        newItemThree.titles = "FACEBOOK"
+//        itemArray.append(newItemThree)
         
-        
-        if let item = defaults.array(forKey: "TodoListArray") as? [Items]{
-            itemArray = item
-        }
+        loadItems()
         
     }
     
@@ -71,9 +73,9 @@ class ToDoeyViewController: UITableViewController{
         //print(itemArray[indexPath.row])
         
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
-      
-        tableView.reloadData()
-       
+        
+        saveItems()
+        
         tableView.deselectRow(at: indexPath, animated: true)
         
         //tableView.cellForRow(at: indexPath)?.accessoryType = .none
@@ -121,10 +123,9 @@ class ToDoeyViewController: UITableViewController{
             self.itemArray.append(newItem)
             
             //The below line of code is related to USERDEFAULTS.....
-            self.defaults.set(self.itemArray, forKey: "TodoListArray")
-        
+          self.saveItems()
             
-            self.tableView.reloadData()
+           
         }
         
         
@@ -139,5 +140,32 @@ class ToDoeyViewController: UITableViewController{
     }
     
 
+    
+    //MARK:  ENCODING DATA.....
+    func saveItems(){
+        let encoder = PropertyListEncoder()
+        do{
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        }catch{
+            print("Item didint get inserted beacuse \(error)")
+        }
+        
+        tableView.reloadData()
+        
+    }
+    //MARK: DECODING DATA......
+    func loadItems(){
+       
+        if let data = try? Data(contentsOf: dataFilePath!){
+            let decoder = PropertyListDecoder()
+            do{
+                itemArray = try decoder.decode([Items].self, from: data)
+            }catch{
+                print("this is the error \(error)")
+            }
+        }
+        
+    }
 }
 
